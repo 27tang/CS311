@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage{enumerate,mathtools,amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{\vspace{-3ex} \bf Assignment 4 \\[1ex]\rm\normalsize CS 311, Spring 2015 \\ Due: May 20, 2014}
+
+\date{}
+\author{}
+
+\begin{document}
+\maketitle
+\paragraph{Problem 1}
+ A {\em Turing machine with left reset} is similar to an ordinary Turing machine, but the 
+ transition function has the form
+  \begin{displaymath}
+    \delta : Q \times \Gamma \to Q \times \Gamma \times \{R,RESET\}
+  \end{displaymath}
+If $\delta (q,a) = (r,b,RESET)$, when the machine is in state $q$ reading an $a$, the machine's 
+head jumps to the left-hand end of the tape after it writes $b$ on the tape and enters state 
+$r$. Note that these machines do not have the usual ability to move the head one symbol left. 
+Show that Turing machines with left reset recognize the class of Turing-recognizable languages.
+
+  (Hint: Much like previous problems in this class, you'll need to describe some general 
+  construction that takes a Turing Machine-with-reset to an ordinary Turing Machine and visa-versa)
+
+\paragraph{Problem 2}
+Give the informal descriptions for Turing machines that decide the following languages
+\begin{enumerate}[\indent a)]
+    \item $\{w \;|\; w \text{ contains twice as many 0s as 1s }\}$
+    \item $\{a+b=c \;|\; a,b,c \in \{0,1\}* \text{ and the binary numbers represented by $a$ 
+    and $b$ sum to $c$} \}$
+\end{enumerate}
+
+\paragraph{Problem 3}
+Show that the Turing-decidable languages are closed under
+\begin{enumerate}[\indent a)]
+    \item union: For any two Turing-decidable languages $L_1$ and $L_2$, there are Turing machines that decide them. Let these machines be $M_1$ and $M_2$. To prove that Turing-decidable languages are closed union, we construct a Turing machine $M$ that decides $L_1 \cup L_2$.
+    \\Let $w$ be any string that contains symbols in languages $L_1$ and $L_2$. Then,
+    \\1. Run $M_1$ on $w$. If it accepts, accept.
+    \\2. Run $M_2$ on $w$. If it accepts, accept.
+    \\3. If neither machine accepts the input, reject.
+    \\$M$ accepts $w$ if either $M_1$ or $M_2$ accepts it. If both Turing machines reject the input, $M$ also rejects.
+    \item intersection: For any two Turing-decidable languages $L_1$ and $L_2$, there are Turing machines that decide them. Let these machines be $M_1$ and $M_2$. To prove that Turing-decidable languages are closed intersection, we construct a Turing machine $M$ that decides $L_1 \cap L_2$.
+    \\Let $w$ be any string that contains symbols in languages $L_1$ and $L_2$. Then,
+    \\1. Run $M_1$ on $w$. If it rejects, then reject.
+    \\2. If $M_1$ accepts the input, run $M_2$ on $w$. If $M_2$ rejects, then reject.
+    \\3. If both $M_1$ and $M_2$ accept the input, then accept.
+    \\$M$ accepts $w$ if both $M_1$ and $M_2$ accept it. If either $M_1$ or $M_2$ rejects $w$, then $M$ rejects w.
+    \item complement: For any Turing-decidable language $L$, there is a Turing machine $M$ that decides it. To prove that Turing-decidable languages are closed under complement, we construct a Turing machine $\overline{M}$ that decides $\overline{L}$.
+    \\Let $w$ be any string that contains symbols in language $L$. Then,
+    \\1. Run $M$ on $w$. If it accepts, reject.
+    \\2. If $M$ rejects, accept.
+    \\If $M$ accepts $w$, $\overline{M}$ rejects it. If $M$ rejects $w$, $\overline{M}$ accepts it.
+    \item set difference: For any two Turing-decidable languages $L_1$ and $L_2$, there are Turing machines that decide them. Let these machines be $M_1$ and $M_2$. To prove that Turing-decidable languages are closed intersection, we construct a Turing machine $M$ that decides $L_1 \cap \overline{L_2}$.
+    \\Let $w$ be any string that contains symbols in languages $L_1$ and $L_2$. Then,
+    \\1. Run $M_1$ on $w$. If it rejects, then reject.
+    \\2. If $M_1$ accepts the input, run $M_2$ on $w$. If $M_2$ accepts, then reject.
+    \\3. If $M_1$ accepts $w$ and $M_2$ rejects $w$, then accept.
+    \\$M$ accepts $w$ if $M_1$ accepts and $M_2$ rejects. If $M_1$ rejects $w$ or if $M_2$ accepts it, $M$ rejects.
+\end{enumerate} 
+
+\paragraph{Problem 4}
+Show that the Turing-recognizable languages are closed under concatenation
+
+This problem requires providing constructions that take individual Turing machines and combines 
+them into a new machine that {\em recognizes} the new language. Remember, this is about 
+Turing-recognizable languages not just decidable so that there's a possibility of non-termination.
+
+\paragraph{Problem 5} For each of the following Turing machine variants determine if the machine
+is more powerful, equivalent, or less powerful than a single-tape Turing machine. If less powerful
+describe the class of languages recognized by the machine. Explain your answers.
+\begin{enumerate}[\indent a)]
+    \item A Turing Machine that can only make moves to the right and never left.
+    \item A Turing Machine that can move right one space or move left two spaces.
+    \item A Turing Machine that never writes a space on the tape that already contains a symbol.
+\end{enumerate}
+
+\end{document}
