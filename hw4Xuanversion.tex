@@ -196,8 +196,17 @@ is more powerful, equivalent, or less powerful than a single-tape Turing machine
 describe the class of languages recognized by the machine. Explain your answers.
 \begin{enumerate}[\indent a)]
     \item A Turing Machine that can only make moves to the right and never left.
+    
     \item A Turing Machine that can move right one space or move left two spaces.
+    \paragraph{} This machine is equivalent to a normal, single-tape Turing machine. You can simulate
+    a regular turing machine with the Left-2 turing machine by moving right once after every left-2, effectively 
+    simulating a left-1 move.
+    \\You can simulate a Left-2 machine with a regular Turing machine by simply moving left twice when moving left.
     \item A Turing Machine that never writes a space on the tape that already contains a symbol.
+    \paragraph{} This machine is equivalent to a normal, single-tape Turing machine. A turing machine that cannot 
+    write blanks can simulate a regular turing machine by using an addition symbol '~' that is written instead of the blank symbol.
+    The addition symbol '~' should not be distinguished from the blank symbol when reading.
+    
 \end{enumerate}
 
 \end{document}
