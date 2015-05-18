@@ -41,10 +41,23 @@ Give the informal descriptions for Turing machines that decide the following lan
     and $b$ sum to $c$} \}$
     
     \begin{enumerate}[\indent 1.]
-		\item 
-		\item 
-		\item 
-		\item 
+		\item Scan tape to check if string is in the format: $\{0,1\}^* + \{0,1\}^* = \{0,1\}^* $. If it isn't, $reject$. Move read-head back to start of tape.
+		\item Scan tape to check if all the $0$s and $1$s  before the $=$ symbol have been crossed off. If so, go to step 9. Scan right until either an $X$ ($X$ means crossed out symbol) or a $+$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$, or no unmarked symbol was found, go to step 3. If the symbol was a $1$, go to step 4.
+		
+		
+		\item Move past the $+$ sign and scan until either an $X$ or an $=$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$ go to step 5. If the symbol was a $1$, go to step 6. If no unmarked symbol was found between the $+$ and the $=$ sign, go to step 5.
+		\item Move past the $+$ sign and scan until either an $X$ or an $=$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$ go to step 6. If the symbol was a $1$, go to step 7. If no unmarked symbol was found between the $+$ and the $=$ sign, go to step 6 .
+		
+		\item (case: $0 + 0 = 0$) Move past the $=$ sign and scan until either an $X$ or an $space$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$, move read-head back to start of tape, and go to step 2. If the symbol was a $1$, or no unmarked symbol was found, $reject$.
+		
+		\item (case: $0 + 1 = 1$ or $1 + 0 = 1$) Move past the $=$ sign and scan until either an $X$ or a $space$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol at the read-head was a $1$, move read-head back to start of tape and go to step 2. If the symbol was a $0$, or no unmarked symbol was found, $reject$.
+		
+		\item (case: $1 + 1 = 10$) Move past the $=$ sign and scan until either an $X$ or a $space$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol at the read-head was a $0$, move to the left until arriving at the $+$ sign. If the symbol at the read-head was a $1$, or no unmarked symbol was found, $reject$.
+		
+		\item Scan to the left and find the first unmarked symbol. If the symbol is a $0$, write a $1$ in its place. If the symbol is a $1$, write a $0$ in its place, and repeat this step(step 8). If no unmarked symbol is found, shift the contents of the entire tape to the right by one position, and fill the vacant position at the start of the tape with $1$. Go to step 2.
+		
+		\item Scan right to check if all symbols after the $=$ have been crossed off. If they have, $accept$. Otherwise, $reject$.
+		 		
     \end{enumerate}
 
 
