@@ -10,21 +10,17 @@
 \begin{document}
 \maketitle
 \paragraph{Problem 1}
- A {\em Turing machine with left reset} is similar to an ordinary Turing machine, but the 
- transition function has the form
+ \textbf{A {\em Turing machine with left reset} is similar to an ordinary Turing machine, but the transition function has the form}
   \begin{displaymath}
     \delta : Q \times \Gamma \to Q \times \Gamma \times \{R,RESET\}
   \end{displaymath}
-If $\delta (q,a) = (r,b,RESET)$, when the machine is in state $q$ reading an $a$, the machine's 
-head jumps to the left-hand end of the tape after it writes $b$ on the tape and enters state 
-$r$. Note that these machines do not have the usual ability to move the head one symbol left. 
-Show that Turing machines with left reset recognize the class of Turing-recognizable languages.
+\textit{If $\delta (q,a) = (r,b,RESET)$, when the machine is in state $q$ reading an $a$, the machine's head jumps to the left-hand end of the tape after it writes $b$ on the tape and enters state $r$. Note that these machines do not have the usual ability to move the head one symbol left. 
+Show that Turing machines with left reset recognize the class of Turing-recognizable languages.}
 
-  (Hint: Much like previous problems in this class, you'll need to describe some general 
-  construction that takes a Turing Machine-with-reset to an ordinary Turing Machine and visa-versa)
+  \textit{(Hint: Much like previous problems in this class, you'll need to describe some general construction that takes a Turing Machine-with-reset to an ordinary Turing Machine and visa-versa)}
 
 \paragraph{Problem 2}
-Give the informal descriptions for Turing machines that decide the following languages
+\textbf{Give the informal descriptions for Turing machines that decide the following languages}
 \begin{enumerate}[\indent a)]
     \item $\{w \;|\; w \text{ contains twice as many 0s as 1s }\}$
     
@@ -65,9 +61,9 @@ Give the informal descriptions for Turing machines that decide the following lan
 \end{enumerate}
 
 \paragraph{Problem 3}
-Show that the Turing-decidable languages are closed under
+\textbf{Show that the Turing-decidable languages are closed under}
 \begin{enumerate}[\indent a)]
-    \item union: 
+    \item \textbf{•}textbf{union:} 
     
     Let $L$ be the union of two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
 
@@ -84,7 +80,7 @@ $M = $ "On input string $w$:
     
     Since $M$ will always halt -- end up in either an accept or reject state, $L$ is decidable.
     
-    \item intersection: 
+    \item \textbf{intersection:} 
     
     Let $L$ be the intersection of two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
 
@@ -99,7 +95,7 @@ $M = $ "On input string $w$:
     
     $M$ accepts $w$ if both $M_1$ and $M_2$ accept it. If either $M_1$ or $M_2$ rejects $w$, then $M$ rejects w. Since $M_!$ and $M_2$ are deciders, they will always halt. Consequently, $M$ will always halt, and is therefore a decider.
     
-    \item complement:
+    \item \textbf{complement:}
     
     For any Turing-decidable language $L$, there is a Turing machine $M$ that decides it. To show that Turing-decidable languages are closed under complement, we construct a Turing machine $M'$ that decides $L'$, where
     $$L' = \{w \;|\;  w \in \overline{L} \text{ and $M$ decides $L$}  \}$$
@@ -110,7 +106,7 @@ $M = $ "On input string $w$:
     
     
     If $M$ accepts $w$, $M'$ rejects it. If $M$ rejects $w$, $M'$ accepts it. Since $M$ is a decider, it will not loop. Therefore, $M'$ also will not loop and is a decider.
-    \item set difference:
+    \item \textbf{set difference:}
     
         Let $L$ be the set-difference between two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
 
@@ -129,11 +125,26 @@ $M$ accepts $w$ if $M_1$ accepts and $M_2$ rejects. If $M_1$ rejects $w$ or if $
 \end{enumerate} 
 
 \paragraph{Problem 4}
-Show that the Turing-recognizable languages are closed under concatenation
+\textit{\textbf{Show that the Turing-recognizable languages are closed under concatenation.}}
 
-This problem requires providing constructions that take individual Turing machines and combines 
-them into a new machine that {\em recognizes} the new language. Remember, this is about 
-Turing-recognizable languages not just decidable so that there's a possibility of non-termination.
+\noindent \textit{This problem requires providing constructions that take individual Turing machines and combines them into a new machine that {\em recognizes} the new language. Remember, this is about Turing-recognizable languages not just decidable so that there's a possibility of non-termination.}\newline
+
+\noindent Let $L$ be the concatenation of two Turing-recognizable languages, $L_1$ and $L_2$. A language is Turing-recognizable if some Turing machine recognizes it(Definition 3.5). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that recognize them.
+
+\noindent $L = L_1 \circ L_2$ is Turing-recognizable if and only if there is some non-deterministic Turing machine that recognizes it(Corollary 3.18). So, to show that the Turing-recognizable languages are closed under concatenation, we describe a Turing machine $M$ that recognizes $L$, where
+$$L = \{w \;|\;  w \in L_1\circ L_2,\; M_1 \text{ and  $M_2$ recognizes $L_1$ and $L_2$}\}$$
+
+\noindent $M = $ "On input string $w$: 
+    \begin{enumerate}[\indent 1.]
+    \item Divide string $w$ into two parts, $w_1$ and $w_2$.
+    \item Run $M_1$ on $w_1$. If it rejects, $reject$. If it accepts, move on to step 3.
+    \item Run $M_2$ on $w_2$. If it rejects, $reject$. If it accepts, $accept$."
+    \end{enumerate}
+    
+    \noindent At steps 2 and 3, if either $M_1$ or $M_2$ ends up looping -- not ending up in an accept or reject state, $M$ will consequently also loop forever. However, if $w$ is divided in such a way that $M_1$ and $M_2$ accepts $w_1$ and $w_2$, $M$ will halt and accept $w$. Therefore $M$ recognizes $L$.
+    
+    
+
 
 \paragraph{Problem 5} For each of the following Turing machine variants determine if the machine
 is more powerful, equivalent, or less powerful than a single-tape Turing machine. If less powerful
