@@ -28,15 +28,27 @@ Give the informal descriptions for Turing machines that decide the following lan
 \begin{enumerate}[\indent a)]
     \item $\{w \;|\; w \text{ contains twice as many 0s as 1s }\}$
     
-$M = $ "On input string w:
-\begin{enumerate}[\indent \indent 1.]
-	\item Scan tape and mark the first unmarked $0$. If no unmarked $0$ is found, jump to step 4.
-	\item Continue to the right and mark the next unmarked $0$, then return read-head to start of tape. If no unmarked $0$ is found, $reject$.
-	\item Scan tape and mark the next unmarked $1$. If no unmarked $1$ is found, $reject$. Otherwise, go move read-head to start of tape, and go back to step 1.
-	\item Scan the tape to look for unmarked $1$s. If there are any unmarked $1$s left, $reject$. If there are not any unmarked $1$s, $accept$.
+	$M = $ "On input string w:
+	\begin{enumerate}[\indent 1.]
+		\item Scan tape and mark the first unmarked $0$. If no unmarked $0$ is found, jump to step 4.
+		\item Continue to the right and mark the next unmarked $0$, then return read-head to start of tape. If no unmarked $0$ is found, $reject$.
+		\item Scan tape and mark the next unmarked $1$. If no unmarked $1$ is found, $reject$. Otherwise, go move read-head to start of tape, and go back to step 1.
+		\item Scan the tape to look for unmarked $1$s. If there are any unmarked $1$s left, $reject$. If there are not any unmarked $1$s, $accept$.	
     \end{enumerate}
+
+
     \item $\{a+b=c \;|\; a,b,c \in \{0,1\}* \text{ and the binary numbers represented by $a$ 
     and $b$ sum to $c$} \}$
+    
+    \begin{enumerate}[\indent 1.]
+		\item 
+		\item 
+		\item 
+		\item 
+    \end{enumerate}
+
+
+
 \end{enumerate}
 
 \paragraph{Problem 3}
