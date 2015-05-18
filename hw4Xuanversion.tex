@@ -2,13 +2,25 @@
 \usepackage{mathtools,amsmath,amssymb,amsthm,enumerate}
 \usepackage[margin=1in]{geometry}
 
-\title{\vspace{-3ex} \bf Assignment 4 \\[1ex]\rm\normalsize CS 311, Spring 2015 \\ Due: May 20, 2014}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Chasity Savella, 
+Matthew Popescu, 
+Xuan Tang(900996708)
+}
+\lhead{\textbf{Assignment 4} - Spring CS311}
+\rfoot{Page \thepage}
 
-\date{}
-\author{}
+
+
+%\title{\vspace{-3ex} \bf Assignment 4 \\[1ex]\rm\normalsize CS 311, Spring 2015 \\ Due: May 20, 2014}
+
+%\date{}
+%\author{}
 
 \begin{document}
-\maketitle
+%\maketitle
 \paragraph{Problem 1}
  \textbf{A {\em Turing machine with left reset} is similar to an ordinary Turing machine, but the transition function has the form}
   \begin{displaymath}
@@ -17,7 +29,40 @@
 \textit{If $\delta (q,a) = (r,b,RESET)$, when the machine is in state $q$ reading an $a$, the machine's head jumps to the left-hand end of the tape after it writes $b$ on the tape and enters state $r$. Note that these machines do not have the usual ability to move the head one symbol left. 
 Show that Turing machines with left reset recognize the class of Turing-recognizable languages.}
 
-  \textit{(Hint: Much like previous problems in this class, you'll need to describe some general construction that takes a Turing Machine-with-reset to an ordinary Turing Machine and visa-versa)}
+  \textit{(Hint: Much like previous problems in this class, you'll need to describe some general construction that takes a Turing Machine-with-reset to an ordinary Turing Machine and visa-versa)} \newline \newline
+  
+\noindent PART 1:\newline  
+  \noindent We can simulate an ordinary Turing Machine $T$ with a left-reset-Turing Machine $R$. \newline
+  
+  \noindent $R =$ "On input $w$:
+  \begin{enumerate} [\indent 1.]
+  
+  	\item To simulate $T$ when $T$ moves its head to the right, $R$ simply does the same.
+  	\item To simulate $T$ when $T$ moves its head to the left, $R$ first marks its current symbol and resets all the way to the left.
+  	\item If the current cell is not a blank, $R$ writes a blank over the symbol in the cell, and moves its head to the right. Otherwise, $R$ moves its head to the right and repeats the current step (step 3).
+  	\item If the symbol in the current cell does not have a mark, $R$ writes the symbol from the previous cell over the symbol of the current cell. If the symbol in the current cell does have a mark, $R$ writes the symbol from the previous cell over the symbol of the current cell, but with a mark. If the symbol in the current cell is a blank, $R$ writes the previous symbol in the cell and continues to step 5. Otherwise it repeats the current step (step 4).
+  	\item $R$ resets its head, then scans right until it arrives at the marked symbol. If $R$ needs to simulate a subsequent left-movement, it resets its head and goes to step 3. If $R$ needs to simulate a subsequent right-movement, it removes the mark and moves its head to the right.
+  	\item To simulate an additional right-movement, $R$ goes to step 1. To simulate an additional left-movement, $R$ goes to step 2. \newline
+    \end{enumerate}
+    
+\noindent $R$ effectively simulates each of $T$'s left movements by resetting and copying the entire tape one position to the right, using a mark to keep track of where to return its head to. Therefore, every string that is accepted by $T$ is also accepted by $R$; every language that $T$ recognizes is also recognized by $R$.\newline
+
+
+\noindent PART 2:
+
+\noindent We can simulate a left-reset Turing machine $R$ with an ordinary Turing machine $T$.\newline
+  
+  \noindent $T =$ "On input $w$:
+  \begin{enumerate} [\indent 1.]
+  
+  	\item To simulate $R$'s right movement, $T$ simply moves its head to the right.
+  	\item To simulate $R$'s reset movement, $T$ moves its head left repeatedly until it reaches the left most end of the tape. 
+  	    \end{enumerate}
+    
+    \noindent Since $T$ can simulate $R$, every language that $R$ recognizes is also recognized by $T$.\newline
+    
+    \noindent By describing the general constructions of ordinary Turing machines and Reset-Turing machines that simulate one another, we have shown that the two are equivalent in power. They recognize the same class of Turing-recognizable languages.
+
 
 \paragraph{Problem 2}
 \textbf{Give the informal descriptions for Turing machines that decide the following languages}
@@ -56,14 +101,14 @@ Show that Turing machines with left reset recognize the class of Turing-recogniz
 		 		
     \end{enumerate}
 
-
+\newpage
 
 \end{enumerate}
 
 \paragraph{Problem 3}
 \textbf{Show that the Turing-decidable languages are closed under}
 \begin{enumerate}[\indent a)]
-    \item \textbf{•}textbf{union:} 
+    \item \textbf{union:} 
     
     Let $L$ be the union of two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
 
