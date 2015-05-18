@@ -33,7 +33,7 @@ Give the informal descriptions for Turing machines that decide the following lan
 		\item Scan tape and mark the first unmarked $0$. If no unmarked $0$ is found, jump to step 4.
 		\item Continue to the right and mark the next unmarked $0$, then return read-head to start of tape. If no unmarked $0$ is found, $reject$.
 		\item Scan tape and mark the next unmarked $1$. If no unmarked $1$ is found, $reject$. Otherwise, go move read-head to start of tape, and go back to step 1.
-		\item Scan the tape to look for unmarked $1$s. If there are any unmarked $1$s left, $reject$. If there are not any unmarked $1$s, $accept$.	
+		\item Scan the tape to look for unmarked $1$s. If there are any unmarked $1$s left, $reject$. If there are not any unmarked $1$s, $accept$."	
     \end{enumerate}
 
 
@@ -56,7 +56,7 @@ Give the informal descriptions for Turing machines that decide the following lan
 		
 		\item Scan to the left and find the first unmarked symbol. If the symbol is a $0$, write a $1$ in its place. If the symbol is a $1$, write a $0$ in its place, and repeat this step(step 8). If no unmarked symbol is found, shift the contents of the entire tape to the right by one position, and fill the vacant position at the start of the tape with $1$. Go to step 2.
 		
-		\item Scan right to check if all symbols after the $=$ have been crossed off. If they have, $accept$. Otherwise, $reject$.
+		\item Scan right to check if all symbols after the $=$ have been crossed off. If they have, $accept$. Otherwise, $reject$."
 		 		
     \end{enumerate}
 
@@ -67,12 +67,21 @@ Give the informal descriptions for Turing machines that decide the following lan
 \paragraph{Problem 3}
 Show that the Turing-decidable languages are closed under
 \begin{enumerate}[\indent a)]
-    \item union: For any two Turing-decidable languages $L_1$ and $L_2$, there are Turing machines that decide them. Let these machines be $M_1$ and $M_2$. To prove that Turing-decidable languages are closed union, we construct a Turing machine $M$ that decides $L_1 \cup L_2$.
-    \\Let $w$ be any string that contains symbols in languages $L_1$ and $L_2$. Then,
-    \\1. Run $M_1$ on $w$. If it accepts, accept.
-    \\2. Run $M_2$ on $w$. If it accepts, accept.
-    \\3. If neither machine accepts the input, reject.
-    \\$M$ accepts $w$ if either $M_1$ or $M_2$ accepts it. If both Turing machines reject the input, $M$ also rejects.
+    \item union: Let $L$ be the union of two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
+
+$L = L_1 \cup L_2$ is Turing-decidable if and only if there is some non-deterministic Turing machine that decides it. Any non-deterministic Turing machine is automatically a deterministic Turing machine. So, to show that the Turing-decidable languages are closed under union, we describe a Turing machine $M$ that decides $L$.
+$$L = \{w \;|\;  w \in L_1\cup L_2, M_1 \text{ and  $M_2$ decide $L_1$ and $L_2$}\}$$
+
+$M = $ "On input string $w$: 
+    \begin{enumerate}[\indent 1.]
+    \item Run $M_1$ on $w$. If it accepts, $accept$.
+    \item Run $M_2$ on $w$. If it accepts, $accept$.
+    \item If both $M_1$ and $M_2$ halt and reject, $reject$."
+    \end{enumerate}
+    
+    
+    Since $M$ will always halt -- end up in either an accept or reject state, $L$ is decidable.
+    
     \item intersection: For any two Turing-decidable languages $L_1$ and $L_2$, there are Turing machines that decide them. Let these machines be $M_1$ and $M_2$. To prove that Turing-decidable languages are closed intersection, we construct a Turing machine $M$ that decides $L_1 \cap L_2$.
     \\Let $w$ be any string that contains symbols in languages $L_1$ and $L_2$. Then,
     \\1. Run $M_1$ on $w$. If it rejects, then reject.
