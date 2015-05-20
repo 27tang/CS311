@@ -1,0 +1,229 @@
+\documentclass{article}
+\usepackage{mathtools,amsmath,amssymb,amsthm,enumerate}
+\usepackage[margin=1in]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Chasity Savella, 
+Matthew Popescu, 
+Xuan Tang(900996708)
+}
+\lhead{\textbf{Assignment 4} - Spring CS311}
+\rfoot{Page \thepage}
+
+
+
+%\title{\vspace{-3ex} \bf Assignment 4 \\[1ex]\rm\normalsize CS 311, Spring 2015 \\ Due: May 20, 2014}
+
+%\date{}
+%\author{}
+
+\begin{document}
+%\maketitle
+\paragraph{Problem 1}
+ \textbf{A {\em Turing machine with left reset} is similar to an ordinary Turing machine, but the transition function has the form}
+  \begin{displaymath}
+    \delta : Q \times \Gamma \to Q \times \Gamma \times \{R,RESET\}
+  \end{displaymath}
+\textit{If $\delta (q,a) = (r,b,RESET)$, when the machine is in state $q$ reading an $a$, the machine's head jumps to the left-hand end of the tape after it writes $b$ on the tape and enters state $r$. Note that these machines do not have the usual ability to move the head one symbol left. 
+Show that Turing machines with left reset recognize the class of Turing-recognizable languages.}
+
+  \textit{(Hint: Much like previous problems in this class, you'll need to describe some general construction that takes a Turing Machine-with-reset to an ordinary Turing Machine and visa-versa)} \newline \newline
+  
+\noindent PART 1:\newline  
+  \noindent We can simulate an ordinary Turing Machine $T$ with a left-reset-Turing Machine $R$. \newline
+  
+  \noindent $R =$ "On input $w$:
+  \begin{enumerate} [\indent 1.]
+  
+  	\item To simulate $T$ when $T$ moves its head to the right, $R$ simply does the same.
+  	\item To simulate $T$ when $T$ moves its head to the left, $R$ first marks its current symbol and resets all the way to the left.
+  	\item If the current cell is not a blank, $R$ writes a blank over the symbol in the cell, and moves its head to the right. Otherwise, $R$ moves its head to the right and repeats the current step (step 3).
+  	\item If the symbol in the current cell does not have a mark, $R$ writes the symbol from the previous cell over the symbol of the current cell. If the symbol in the current cell does have a mark, $R$ writes the symbol from the previous cell over the symbol of the current cell, but with a mark. If the symbol in the current cell is a blank, $R$ writes the previous symbol in the cell and continues to step 5. Otherwise it repeats the current step (step 4).
+  	\item $R$ resets its head, then scans right until it arrives at the marked symbol. If $R$ needs to simulate a subsequent left-movement, it resets its head and goes to step 3. If $R$ needs to simulate a subsequent right-movement, it removes the mark and moves its head to the right.
+  	\item To simulate an additional right-movement, $R$ goes to step 1. To simulate an additional left-movement, $R$ goes to step 2. \newline
+    \end{enumerate}
+    
+\noindent $R$ effectively simulates each of $T$'s left movements by resetting and copying the entire tape one position to the right, using a mark to keep track of where to return its head to. Therefore, every string that is accepted by $T$ is also accepted by $R$; every language that $T$ recognizes is also recognized by $R$.\newline
+
+
+\noindent $R = $ "On input $w$:
+\begin{enumerate} [\indent 1.]
+
+	\item To simulate $T$ when $T$ moves its head to the right, $R$ simply does the same.
+	\item To simulate $T$ when $T$ moves its head to the left, $R$ marks the current symbol and resets.
+	\item If the current symbol is not marked, go to 4. Otherwise, exit the procedure. Original location is on left edge of tape.
+	\item Mark the current symbol and reset.
+	\item Move the head to the first marked symbol, then move one more to the right.
+	\item If this symbol is unmarked, go to 7. If this symbol is marked, this is where we started from at step 2.
+Unmark the symbol, reset, and move the head right until we get to the next marked symbol. This symbol is one to the left of our original location.
+	\item Mark the symbol, reset, advance to the next marked symbol, unmark it, move one to the right, and go to 6.
+\newline	
+\end{enumerate}
+
+
+
+\noindent PART 2:
+
+\noindent We can simulate a left-reset Turing machine $R$ with an ordinary Turing machine $T$.\newline
+  
+  \noindent $T =$ "On input $w$:
+  \begin{enumerate} [\indent 1.]
+  
+  	\item To simulate $R$'s right movement, $T$ simply moves its head to the right.
+  	\item To simulate $R$'s reset movement, $T$ moves its head left repeatedly until it reaches the left most end of the tape. 
+  	    \end{enumerate}
+    
+    \noindent Since $T$ can simulate $R$, every language that $R$ recognizes is also recognized by $T$.\newline
+    
+    \noindent By describing the general constructions of ordinary Turing machines and Reset-Turing machines that simulate one another, we have shown that the two are equivalent in power. They recognize the same class of Turing-recognizable languages.
+
+
+\paragraph{Problem 2}
+\textbf{Give the informal descriptions for Turing machines that decide the following languages}
+\begin{enumerate}[\indent a)]
+    \item $\{w \;|\; w \text{ contains twice as many 0s as 1s }\}$
+    
+	$M = $ "On input string w:
+	\begin{enumerate}[\indent 1.]
+		\item Scan tape and mark the first unmarked $0$. If no unmarked $0$ is found, jump to step 4.
+		\item Continue to the right and mark the next unmarked $0$, then return read-head to start of tape. If no unmarked $0$ is found, $reject$.
+		\item Scan tape and mark the next unmarked $1$. If no unmarked $1$ is found, $reject$. Otherwise, go move read-head to start of tape, and go back to step 1.
+		\item Scan the tape to look for unmarked $1$s. If there are any unmarked $1$s left, $reject$. If there are not any unmarked $1$s, $accept$."	
+    \end{enumerate}
+
+
+    \item $\{a+b=c \;|\; a,b,c \in \{0,1\}* \text{ and the binary numbers represented by $a$ 
+    and $b$ sum to $c$} \}$
+    
+    \begin{enumerate}[\indent 1.]
+		\item Scan tape to check if string is in the format: $\{0,1\}^* + \{0,1\}^* = \{0,1\}^* $. If it isn't, $reject$. Move read-head back to start of tape.
+		\item Scan tape to check if all the $0$s and $1$s  before the $=$ symbol have been crossed off. If so, go to step 9. Scan right until either an $X$ ($X$ means crossed out symbol) or a $+$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$, or no unmarked symbol was found, go to step 3. If the symbol was a $1$, go to step 4.
+		
+		
+		\item Move past the $+$ sign and scan until either an $X$ or an $=$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$ go to step 5. If the symbol was a $1$, go to step 6. If no unmarked symbol was found between the $+$ and the $=$ sign, go to step 5.
+		\item Move past the $+$ sign and scan until either an $X$ or an $=$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$ go to step 6. If the symbol was a $1$, go to step 7. If no unmarked symbol was found between the $+$ and the $=$ sign, go to step 6 .
+		
+		\item (case: $0 + 0 = 0$) Move past the $=$ sign and scan until either an $X$ or a $blank$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$, move read-head back to start of tape, and go to step 2. If the symbol was a $1$, or no unmarked symbol was found, $reject$.
+		
+		\item (case: $0 + 1 = 1$ or $1 + 0 = 1$) Move past the $=$ sign and scan until either an $X$ or a $blank$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol at the read-head was a $1$, move read-head back to start of tape and go to step 2. If the symbol was a $0$, or no unmarked symbol was found, $reject$.
+		
+		\item (case: $1 + 1 = 10$) Move past the $=$ sign and scan until either an $X$ or a $blank$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol at the read-head was a $0$, move to the left until arriving at the $+$ sign. If the symbol at the read-head was a $1$, or no unmarked symbol was found, $reject$.
+		
+		\item Scan to the left and find the first unmarked symbol. If the symbol is a $0$, write a $1$ in its place. If the symbol is a $1$, write a $0$ in its place, and repeat this step(step 8). If no unmarked symbol is found, shift the contents of the entire tape to the right by one position, and fill the vacant position at the start of the tape with $1$. Go to step 2.
+		
+		\item Scan right to check if all symbols after the $=$ have been crossed off. If they have, $accept$. Otherwise, $reject$."
+		 		
+    \end{enumerate}
+
+\newpage
+
+\end{enumerate}
+
+\paragraph{Problem 3}
+\textbf{Show that the Turing-decidable languages are closed under}
+\begin{enumerate}[\indent a)]
+    \item \textbf{union:} 
+    
+    Let $L$ be the union of two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
+
+$L = L_1 \cup L_2$ is Turing-decidable if and only if there is some non-deterministic Turing machine that decides it. Any non-deterministic Turing machine is automatically a deterministic Turing machine. So, to show that the Turing-decidable languages are closed under union, we describe a Turing machine $M$ that decides $L$, where
+$$L = \{w \;|\;  w \in L_1\cup L_2, M_1 \text{ and  $M_2$ decide $L_1$ and $L_2$}\}$$
+
+$M = $ "On input string $w$: 
+    \begin{enumerate}[\indent 1.]
+    \item Run $M_1$ on $w$. If it accepts, $accept$.
+    \item Run $M_2$ on $w$. If it accepts, $accept$.
+    \item If both $M_1$ and $M_2$ halt and reject, $reject$."
+    \end{enumerate}
+    
+    
+    Since $M$ will always halt -- end up in either an accept or reject state, $L$ is decidable.
+    
+    \item \textbf{intersection:} 
+    
+    Let $L$ be the intersection of two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
+
+$L = L_1 \cup L_2$ is Turing-decidable if and only if there is some non-deterministic Turing machine that decides it. So, to show that the Turing-decidable languages are closed under intersection, we describe a Turing machine $M$ that decides $L$, where
+$$L = \{w \;|\;  w \in L_1\cap L_2, M_1 \text{ and  $M_2$ decide $L_1$ and $L_2$}\}$$
+
+$M = $ "On input string $w$: 
+    \\1. Run $M_1$ on $w$. If it rejects, then reject.
+    \\2. If $M_1$ accepts the input, run $M_2$ on $w$. If $M_2$ rejects, then reject.
+    \\3. If both $M_1$ and $M_2$ accept the input, then accept.
+    
+    
+    $M$ accepts $w$ if both $M_1$ and $M_2$ accept it. If either $M_1$ or $M_2$ rejects $w$, then $M$ rejects w. Since $M_!$ and $M_2$ are deciders, they will always halt. Consequently, $M$ will always halt, and is therefore a decider.
+    
+    \item \textbf{complement:}
+    
+    For any Turing-decidable language $L$, there is a Turing machine $M$ that decides it. To show that Turing-decidable languages are closed under complement, we construct a Turing machine $M'$ that decides $L'$, where
+    $$L' = \{w \;|\;  w \in \overline{L} \text{ and $M$ decides $L$}  \}$$
+    
+    $M' = $ "On input $w$:
+    \\1. Run $M$ on $w$. If it accepts, reject.
+    \\2. If $M$ rejects, accept.
+    
+    
+    If $M$ accepts $w$, $M'$ rejects it. If $M$ rejects $w$, $M'$ accepts it. Since $M$ is a decider, it will not loop. Therefore, $M'$ also will not loop and is a decider.
+    \item \textbf{set difference:}
+    
+        Let $L$ be the set-difference between two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
+
+$L$ is Turing-decidable if and only if there is some non-deterministic Turing machine that decides it. Any non-deterministic Turing machine is automatically a deterministic Turing machine. So, to show that the Turing-decidable languages are closed under set-difference, we describe a Turing machine $M$ that decides $L$, where
+$$L = \{w \;|\;  w \in L_1 \text{ and } w\notin L_2, M_1 \text{ and  $M_2$ decide $L_1$ and $L_2$}\}$$
+
+$M = $ "On input string $w$: 
+    \\Let $w$ be any string that contains symbols in languages $L_1$ and $L_2$. Then,
+    \\1. Run $M_1$ on $w$. If it rejects, then reject.
+    \\2. If $M_1$ accepts the input, run $M_2$ on $w$. If $M_2$ accepts, then reject.
+    \\3. If $M_1$ accepts $w$ and $M_2$ rejects $w$, then accept.
+    
+    
+$M$ accepts $w$ if $M_1$ accepts and $M_2$ rejects. If $M_1$ rejects $w$ or if $M_2$ accepts it, $M$ rejects. $M$ will always end up in either an accept or reject state, therefore it is a decider.
+
+\end{enumerate} 
+
+\paragraph{Problem 4}
+\textit{\textbf{Show that the Turing-recognizable languages are closed under concatenation.}}
+
+\noindent \textit{This problem requires providing constructions that take individual Turing machines and combines them into a new machine that {\em recognizes} the new language. Remember, this is about Turing-recognizable languages not just decidable so that there's a possibility of non-termination.}\newline
+
+\noindent Let $L$ be the concatenation of two Turing-recognizable languages, $L_1$ and $L_2$. A language is Turing-recognizable if some Turing machine recognizes it(Definition 3.5). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that recognize them.
+
+\noindent $L = L_1 \circ L_2$ is Turing-recognizable if and only if there is some non-deterministic Turing machine that recognizes it(Corollary 3.18). So, to show that the Turing-recognizable languages are closed under concatenation, we describe a Turing machine $M$ that recognizes $L$, where
+$$L = \{w \;|\;  w \in L_1\circ L_2,\; M_1 \text{ and  $M_2$ recognizes $L_1$ and $L_2$}\}$$
+
+\noindent $M = $ "On input string $w$: 
+    \begin{enumerate}[\indent 1.]
+    \item Divide string $w$ into two parts, $w_1$ and $w_2$.
+    \item Run $M_1$ on $w_1$. If it rejects, $reject$. If it accepts, move on to step 3.
+    \item Run $M_2$ on $w_2$. If it rejects, $reject$. If it accepts, $accept$."
+    \end{enumerate}
+    
+    \noindent At steps 2 and 3, if either $M_1$ or $M_2$ ends up looping -- not ending up in an accept or reject state, $M$ will consequently also loop forever. However, if $w$ is divided in such a way that $M_1$ and $M_2$ accepts $w_1$ and $w_2$, $M$ will halt and accept $w$. Therefore $M$ recognizes $L$.
+    
+    
+
+
+\paragraph{Problem 5} For each of the following Turing machine variants determine if the machine
+is more powerful, equivalent, or less powerful than a single-tape Turing machine. If less powerful
+describe the class of languages recognized by the machine. Explain your answers.
+\begin{enumerate}[\indent a)]
+    \item A Turing Machine that can only make moves to the right and never left.
+	\paragraph{} A turing machine that can only move right can only read the input once. It may be able to write to the tape, but it can never go back and read what it wrote, so the tape to the left of the read head cannot act as memory. Therefore, it is not equivalent to a regular Turing Machine. Since this "read-right only" Turing machine has no functional memory, it can only recognize languages that a Finite State Machine can: Regular Languages.
+    
+    \item A Turing Machine that can move right one space or move left two spaces.
+    \paragraph{} This machine is equivalent to a normal, single-tape Turing machine. You can simulate
+    a regular turing machine with the Left-2 turing machine by moving right once after every left-2, effectively 
+    simulating a left-1 move.
+    \\You can simulate a Left-2 machine with a regular Turing machine by simply moving left twice when moving left.
+    \item A Turing Machine that never writes a space on the tape that already contains a symbol.
+    \paragraph{} This machine is equivalent to a normal, single-tape Turing machine. A turing machine that cannot 
+    write blanks can simulate a regular turing machine by using an addition symbol '~' that is written instead of the blank symbol.
+    The addition symbol '~' should not be distinguished from the blank symbol when reading.
+    
+\end{enumerate}
+
+\end{document}
