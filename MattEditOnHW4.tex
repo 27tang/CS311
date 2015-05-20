@@ -219,10 +219,13 @@ describe the class of languages recognized by the machine. Explain your answers.
     a regular turing machine with the Left-2 turing machine by moving right once after every left-2, effectively 
     simulating a left-1 move.
     \\You can simulate a Left-2 machine with a regular Turing machine by simply moving left twice when moving left.
-    \item A Turing Machine that never writes a space on the tape that already contains a symbol.
-    \paragraph{} This machine is equivalent to a normal, single-tape Turing machine. A turing machine that cannot 
-    write blanks can simulate a regular turing machine by using an addition symbol '~' that is written instead of the blank symbol.
-    The addition symbol '~' should not be distinguished from the blank symbol when reading.
+    \item A Turing Machine that never writes over a space on the tape that already contains a symbol.
+    \paragraph{} This "write once" turing machine is equivalent to a regular turing machine. Because we cannot modify or mark any of the symbols, we need to format the input before loading it into the tape.
+The way we will format it is inserting a blank space after each character of the input string. When the string is loaded onto the tape, we will insert a blank space to the right of every symbol. We can use this blank space to behave as a "marked" symbol.
+\\\\Essentially, since we cannot directly modify any symbol, any time we need to, we copy the entire tape and place it to the right of the last symbol of the original input. We should use a symbol not in $\sum$ to separate the strings, like \#. 
+However, in order to copy, we need to be able to mark the current symbol we want to copy, place the copied symbol after the \#, and return to where we left off.
+\\\\When we grab a symbol from the original input string, we move one to the right and insert a marked version of that symbol in the blank space we inserted before loading in the string. Then we move left until we reach the \# symbol, move one right and add the symbol. Then we move back until we see the first marked symbol, move one right, and repeat.
+For each following symbol to copy, we move right until we see 2 blanks in a row (we need to copy the string with the format "a\_b\_c\_d....". When we see 2 blanks, write in the symbol to be copied, and repeat until we hit the \# symbol.
     
 \end{enumerate}
 
