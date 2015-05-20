@@ -32,7 +32,7 @@ Show that Turing machines with left reset recognize the class of Turing-recogniz
   \textit{(Hint: Much like previous problems in this class, you'll need to describe some general construction that takes a Turing Machine-with-reset to an ordinary Turing Machine and visa-versa)} \newline \newline
   
 \noindent PART 1:\newline  
-  \noindent We can simulate an ordinary Turing Machine $T$ with a left-reset-Turing Machine $R$. \newline
+  \noindent We can simulate an ordinary Turing Machine $T$ with a left-reset-Turing Machine $R$ or $S$. \newline
   
   \noindent $R =$ "On input $w$:
   \begin{enumerate} [\indent 1.]
@@ -48,16 +48,16 @@ Show that Turing machines with left reset recognize the class of Turing-recogniz
 \noindent $R$ effectively simulates each of $T$'s left movements by resetting and copying the entire tape one position to the right, using a mark to keep track of where to return its head to. Therefore, every string that is accepted by $T$ is also accepted by $R$; every language that $T$ recognizes is also recognized by $R$.\newline
 
 
-\noindent $R = $ "On input $w$:
+\noindent $S = $ "On input $w$:
 \begin{enumerate} [\indent 1.]
 
-	\item To simulate $T$ when $T$ moves its head to the right, $R$ simply does the same.
-	\item To simulate $T$ when $T$ moves its head to the left, $R$ marks the current symbol and resets.
+	\item To simulate $T$ when $T$ moves its head to the right, $S$ simply does the same.
+	\item To simulate $T$ when $T$ moves its head to the left, $S$ marks the current symbol and resets.
 	\item If the current symbol is not marked, go to 4. Otherwise, exit the procedure. Original location is on left edge of tape.
 	\item Mark the current symbol and reset.
 	\item Move the head to the first marked symbol, then move one more to the right.
-	\item If this symbol is unmarked, go to 7. If this symbol is marked, this is where we started from at step 2.
-Unmark the symbol, reset, and move the head right until we get to the next marked symbol. This symbol is one to the left of our original location.
+	\item If this symbol is unmarked, go to 7. Otherwise, the symbol is marked and this is where we started from at step 2.
+Unmark the symbol, reset, and move the head right until we get to the next marked symbol. This symbol is one to the left of our original location. Exit the procedure.
 	\item Mark the symbol, reset, advance to the next marked symbol, unmark it, move one to the right, and go to 6.
 \newline	
 \end{enumerate}
@@ -85,7 +85,7 @@ Unmark the symbol, reset, and move the head right until we get to the next marke
 \begin{enumerate}[\indent a)]
     \item $\{w \;|\; w \text{ contains twice as many 0s as 1s }\}$
     
-	$M = $ "On input string w:
+	$M = $ "On input string $w$:
 	\begin{enumerate}[\indent 1.]
 		\item Scan tape and mark the first unmarked $0$. If no unmarked $0$ is found, jump to step 4.
 		\item Continue to the right and mark the next unmarked $0$, then return read-head to start of tape. If no unmarked $0$ is found, $reject$.
@@ -97,6 +97,7 @@ Unmark the symbol, reset, and move the head right until we get to the next marke
     \item $\{a+b=c \;|\; a,b,c \in \{0,1\}* \text{ and the binary numbers represented by $a$ 
     and $b$ sum to $c$} \}$
     
+    $M = $ "On input string $w$:
     \begin{enumerate}[\indent 1.]
 		\item Scan tape to check if string is in the format: $\{0,1\}^* + \{0,1\}^* = \{0,1\}^* $. If it isn't, $reject$. Move read-head back to start of tape.
 		\item Scan tape to check if all the $0$s and $1$s  before the $=$ symbol have been crossed off. If so, go to step 9. Scan right until either an $X$ ($X$ means crossed out symbol) or a $+$ is found. Move left by one position. Cross off the symbol at the read-head. If the symbol was a $0$, or no unmarked symbol was found, go to step 3. If the symbol was a $1$, go to step 4.
@@ -154,19 +155,19 @@ $M = $ "On input string $w$:
     \\3. If both $M_1$ and $M_2$ accept the input, then accept.
     
     
-    $M$ accepts $w$ if both $M_1$ and $M_2$ accept it. If either $M_1$ or $M_2$ rejects $w$, then $M$ rejects w. Since $M_!$ and $M_2$ are deciders, they will always halt. Consequently, $M$ will always halt, and is therefore a decider.
+    $M$ accepts $w$ if both $M_1$ and $M_2$ accept it. If either $M_1$ or $M_2$ rejects $w$, then $M$ rejects w. Since $M_1$ and $M_2$ are deciders, they will always halt. Consequently, $M$ will always halt, and is therefore a decider.
     
     \item \textbf{complement:}
     
     For any Turing-decidable language $L$, there is a Turing machine $M$ that decides it. To show that Turing-decidable languages are closed under complement, we construct a Turing machine $M'$ that decides $L'$, where
-    $$L' = \{w \;|\;  w \in \overline{L} \text{ and $M$ decides $L$}  \}$$
+    $$\overline{L} = \{w \;|\;  w \in \overline{L} \text{ and $M$ decides $L$}  \}$$
     
-    $M' = $ "On input $w$:
+    $\overline{M} = $ "On input $w$:
     \\1. Run $M$ on $w$. If it accepts, reject.
     \\2. If $M$ rejects, accept.
     
     
-    If $M$ accepts $w$, $M'$ rejects it. If $M$ rejects $w$, $M'$ accepts it. Since $M$ is a decider, it will not loop. Therefore, $M'$ also will not loop and is a decider.
+    If $M$ accepts $w$, $\overline{M}$ rejects it. If $M$ rejects $w$, $\overline{M}$ accepts it. Since $M$ is a decider, it will not loop. Therefore, $\overline{M}$ also will not loop and is a decider.
     \item \textbf{set difference:}
     
         Let $L$ be the set-difference between two Turing-decidable languages, $L_1$ and $L_2$. A language is decidable if and only if some non-deterministic Turing machine decides it(Corollary 3.19). Therefore it follows that for languages $L_1$ and $L_2$, there exist Turing machines $M_1$ and $M_2$ that decide them.
@@ -218,7 +219,7 @@ describe the class of languages recognized by the machine. Explain your answers.
     \paragraph{} This machine is equivalent to a normal, single-tape Turing machine. You can simulate
     a regular turing machine with the Left-2 turing machine by moving right once after every left-2, effectively 
     simulating a left-1 move.
-    \\You can simulate a Left-2 machine with a regular Turing machine by simply moving left twice when moving left.
+    \\\\You can simulate a Left-2 machine with a regular Turing machine by simply moving left twice when moving left.
     \item A Turing Machine that never writes over a space on the tape that already contains a symbol.
     \paragraph{} This "write once" turing machine is equivalent to a regular turing machine. Because we cannot modify or mark any of the symbols, we need to format the input before loading it into the tape.
 The way we will format it is inserting a blank space after each character of the input string. When the string is loaded onto the tape, we will insert a blank space to the right of every symbol. We can use this blank space to behave as a "marked" symbol.
