@@ -213,15 +213,15 @@ is more powerful, equivalent, or less powerful than a single-tape Turing machine
 describe the class of languages recognized by the machine. Explain your answers.
 \begin{enumerate}[\indent a)]
     \item A Turing Machine that can only make moves to the right and never left.
-	\paragraph{} A turing machine that can only move right can only read the input once. It may be able to write to the tape, but it can never go back and read what it wrote, so the tape to the left of the read head cannot act as memory. Therefore, it is not equivalent to a regular Turing Machine. Since this "read-right only" Turing machine has no functional memory, it can only recognize languages that a Finite State Machine can: Regular Languages.
+	\\\\A turing machine that can only move right can only read the input once. It may be able to write to the tape, but it can never go back and read what it wrote, so the tape to the left of the read head cannot act as memory. Therefore, it is not equivalent to a regular Turing Machine. Since this "read-right only" Turing machine has no functional memory, it can only recognize languages that a Finite State Machine can: Regular Languages.
     
     \item A Turing Machine that can move right one space or move left two spaces.
-    \paragraph{} This machine is equivalent to a normal, single-tape Turing machine. You can simulate
+    \\\\ This machine is equivalent to a normal, single-tape Turing machine. You can simulate
     a regular turing machine with the Left-2 turing machine by moving right once after every left-2, effectively 
     simulating a left-1 move.
     \\\\You can simulate a Left-2 machine with a regular Turing machine by simply moving left twice when moving left.
     \item A Turing Machine that never writes over a space on the tape that already contains a symbol.
-    \paragraph{} This "write once" turing machine is equivalent to a regular turing machine. Because we cannot modify or mark any of the symbols, we need to format the input before loading it into the tape.
+    \\\\This "write once" turing machine is equivalent to a regular turing machine. Because we cannot modify or mark any of the symbols, we need to format the input before loading it into the tape.
 The way we will format it is inserting a blank space after each character of the input string. When the string is loaded onto the tape, we will insert a blank space to the right of every symbol. We can use this blank space to behave as a "marked" symbol.
 \\\\Essentially, since we cannot directly modify any symbol, any time we need to, we copy the entire tape and place it to the right of the last symbol of the original input. We should use a symbol not in $\sum$ to separate the strings, like \#. 
 However, in order to copy, we need to be able to mark the current symbol we want to copy, place the copied symbol after the \#, and return to where we left off.
